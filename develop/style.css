@@ -3,3 +3,33 @@
     background-color: blue;
     color: white;
   }
+
+.card{
+    background-color: rgb(36, 28, 141);
+    margin: 5px;
+    color: white;
+    font-weight: bolder;
+    width: 20%;
+    
+}
+main{
+    justify-content: center;
+}
+.card-search{
+    border: black 2px solid;
+    padding-top: 20px;
+    margin-top: 20px;
+    
+}
+.card-day{
+    border: black 5px solid;
+    margin-top: 20px;
+    
+}
+.forcast-card{
+    
+    margin-top: 20px;
+}
+#forcast{
+    flex-direction: row;
+}
