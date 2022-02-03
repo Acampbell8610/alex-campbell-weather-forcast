@@ -199,6 +199,7 @@ function displayFiveDayForecast(dataFive){
 
     }
 
-    pastSearchesEl.addEventListener("click", formSubmitHandler);
+    pastSearchesEl.addEventListener("click", getFiveDayforecast);
+    
 
 
