@@ -6,8 +6,8 @@ let forecastConatainerEl= document.querySelector("#forecast");
 let apiKey ='ab005648c2da3a02b53d989dac1d8651';
 let fiveDayforecastEl=document.querySelector("#forecast")
 let apiKeyFive= '71c543f4e5fc044e2c293d5a11ea3ec8';
-console.log(moment().format("L"));
-console.log(moment().add(10,"days").format("L"));
+
+
 //get the forecast
  var getforecast = function(){
     var cityEl= selectedCityEl.value.trim()
@@ -23,6 +23,8 @@ console.log(moment().add(10,"days").format("L"));
                 getFiveDayforecast(data.coord)
                 // display results dynamically
                  displayforecast(data);
+                 
+                 
             });
             }else{
                  alert("ERROR: City Not Found");
@@ -45,10 +47,12 @@ console.log(moment().add(10,"days").format("L"));
         if(response.ok){
             response.json().then(function(dataFive){
                 console.log(dataFive)
-                console.log(dataFive)
+               
 
                 // display results dynamically
                  displayFiveDayForecast(dataFive);
+                 
+                
             });
             }else{
                  alert("ERROR: City Not Found");
@@ -60,11 +64,15 @@ console.log(moment().add(10,"days").format("L"));
     });
    }
 
+   
+
 //gets value from input/location
 var formSubmitHandler = function(event){
     event.preventDefault();
     var city= selectedCityEl.value.trim()
     ;
+    localStorage.setItem("city",city);
+    pastSearchBtn();
 
     if(city){
         getforecast(city);
@@ -85,7 +93,7 @@ function displayforecast (data) {
 
     // iterate over the dataArr array that is passed in
     forecastConatainerEl.textContent="";
-
+    currentWeatherEl.textContent="";
      
        // create elements for 5-day forecast and assign classes so they are styled properly
        var currentDay= document.createElement("div");
@@ -93,7 +101,7 @@ function displayforecast (data) {
 
        var titleEL = document.createElement("h5");
         titleEL.textContent= (data.name) 
-
+        
         var imgEl = document.createElement("p");
         imgEl.textContent = (data.weather[0].description)
 
@@ -101,7 +109,7 @@ function displayforecast (data) {
         tempEl.textContent= "Temp: " + (data.main.temp)
 
         var windEl = document.createElement("p");
-        windEl.textContent= "Wind: " +(data.wind)
+        windEl.textContent= "Wind: " +(data.wind.speed)
 
         var humidityEl= document.createElement("p")
         humidityEl.textContent= "Humidity: " +(data.main.humidity)
@@ -111,14 +119,41 @@ function displayforecast (data) {
         currentDay.appendChild(tempEl);
         currentDay.appendChild(windEl);
         currentDay.appendChild(humidityEl);
+        
 
         currentWeatherEl.appendChild(currentDay);
 }
        
 function displayFiveDayForecast(dataFive){  
+
+    var  UvEl= JSON.parse(dataFive.daily[0].uvi);
+    if(UvEl<= 3){
+        var UviEL= document.createElement("btn");
+        UviEL.classList="btn-success";
+        UviEL.textContent= "UV Index: "+ (UvEl);
+        currentWeatherEl.appendChild(UviEL);
+
+    }else if
+            (UvEl<= 7){
+            var UviEL= document.createElement("btn");
+            UviEL.classList="btn-warning";
+            UviEL.textContent= "UV Index: "+ (UvEl);
+            currentWeatherEl.appendChild(UviEL);
+
+    }else
+            {  var UviEL= document.createElement("btn");
+                UviEL.classList="btn-danger";
+                UviEL.textContent= "UV Index: "+ (UvEl);
+                currentWeatherEl.appendChild(UviEL);
+        
+    }
+
+
+    
+
     for(var i = 1; i < 6; i++) {
         //create Element li, add class to li
-        var day= document.createElement("li");
+        var day= document.createElement("div");
         day.classList="card-body card";
 
         var titleEL = document.createElement("h5");
@@ -144,128 +179,26 @@ function displayFiveDayForecast(dataFive){
         day.appendChild(humidityEl);
         fiveDayforecastEl.appendChild(day);
 
-    }
-       
-    //    var dayTwo = document.createElement("li");
-    //     dayTwo.classList="card card-body";
-
-     
     
+    }
+     
 
-       
 
-    //     var dayThree = document.createElement("li");
-    //     dayThree.classList="card card-body";
+    }
+    function pastSearchBtn(){
+        var pastSearch= document.createElement("div")
 
-    //     var titleEL = document.createElement("h5");
-    //     titleEL.textContent= "Date"
+        var pastCity= localStorage.getItem("city");
 
-    //     var imgEl = document.createElement("p");
-    //     imgEl.textContent = "IMG"
+        var pastBtn= document.createElement("btn");
+        pastBtn.classList="btn btn-info"
+        pastBtn.textContent= pastCity;
 
-    //     var tempEl = document.createElement("p");
-    //     tempEl.textContent= "Temp"
-
-    //     var windEl = document.createElement("p");
-    //     windEl.textContent= "Wind"
-
-    //     var humidityEl= document.createElement("p")
-    //     humidityEl.textContent= "Humidity"
-        
-
-    //     dayThree.appendChild(titleEL);
-    //     dayThree.appendChild(imgEl);
-    //     dayThree.appendChild(tempEl);
-    //     dayThree.appendChild(windEl);
-    //     dayThree.appendChild(humidityEl);
-
-    //     var dayFour = document.createElement("li");
-    //     dayFour.classList="card card-body";
-
-    //     var titleEL = document.createElement("h5");
-    //     titleEL.textContent= "Date"
-
-    //     var imgEl = document.createElement("p");
-    //     imgEl.textContent = "IMG"
-
-    //     var tempEl = document.createElement("p");
-    //     tempEl.textContent= "Temp"
-
-    //     var windEl = document.createElement("p");
-    //     windEl.textContent= "Wind"
-
-    //     var humidityEl= document.createElement("p")
-    //     humidityEl.textContent= "Humidity"
-        
-
-    //     dayFour.appendChild(titleEL);
-    //     dayFour.appendChild(imgEl);
-    //     dayFour.appendChild(tempEl);
-    //     dayFour.appendChild(windEl);
-    //     dayFour.appendChild(humidityEl);
-
-    //     var dayFive = document.createElement("li");
-    //     dayFive.classList="card card-body";
-
-    //     var titleEL = document.createElement("h5");
-    //     titleEL.textContent= "Date"
-
-    //     var imgEl = document.createElement("p");
-    //     imgEl.textContent = "IMG"
-
-    //     var tempEl = document.createElement("p");
-    //     tempEl.textContent= "Temp"
-
-    //     var windEl = document.createElement("p");
-    //     windEl.textContent= "Wind"
-
-    //     var humidityEl= document.createElement("p")
-    //     humidityEl.textContent= "Humidity"
-        
-
-    //     dayFive.appendChild(titleEL);
-    //     dayFive.appendChild(imgEl);
-    //     dayFive.appendChild(tempEl);
-    //     dayFive.appendChild(windEl);
-    //     dayFive.appendChild(humidityEl);
-
-    //     var daySix = document.createElement("li");
-    //     daySix.classList="card card-body";
-
-    //     var titleEL = document.createElement("h5");
-    //     titleEL.textContent= "Date"
-
-    //     var imgEl = document.createElement("p");
-    //     imgEl.textContent = "IMG"
-
-    //     var tempEl = document.createElement("p");
-    //     tempEl.textContent= "Temp"
-
-    //     var windEl = document.createElement("p");
-    //     windEl.textContent= "Wind"
-
-    //     var humidityEl= document.createElement("p")
-    //     humidityEl.textContent= "Humidity"
-        
-
-    //     daySix.appendChild(titleEL);
-    //     daySix.appendChild(imgEl);
-    //     daySix.appendChild(tempEl);
-    //     daySix.appendChild(windEl);
-    //     daySix.appendChild(humidityEl);
-
-    //     fiveDayforecastEl.appendChild(dayTwo);
-    //     fiveDayforecastEl.appendChild(dayThree);
-    //     fiveDayforecastEl.appendChild(dayFour);
-    //     fiveDayforecastEl.appendChild(dayFive);
-    //     fiveDayforecastEl.appendChild(daySix);
+        pastSearch.appendChild(pastBtn);
+        pastSearchesEl.appendChild(pastSearch);
 
     }
 
-
-    //  append list to DOM
-
-//}
-
+    pastSearchesEl.addEventListener("click", formSubmitHandler);
 
 

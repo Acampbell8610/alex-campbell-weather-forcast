@@ -11,6 +11,7 @@
     font-weight: bolder;
     width: 20%;
     
+    
 }
 main{
     justify-content: center;
@@ -29,7 +30,5 @@ main{
 .forcast-card{
     
     margin-top: 20px;
-}
-#forcast{
-    flex-direction: row;
+    width:50%;
 }
