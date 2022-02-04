@@ -11,7 +11,7 @@ let apiKeyFive= '71c543f4e5fc044e2c293d5a11ea3ec8';
 //get the forecast
  var getforecast = function(){
     var cityEl= selectedCityEl.value.trim()
-    var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityEl}&appid=${apiKey}`;
+    var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityEl}&units=imperial&appid=${apiKey}`;
 
     fetch(apiUrl)
     .then(function(response){
@@ -39,7 +39,7 @@ let apiKeyFive= '71c543f4e5fc044e2c293d5a11ea3ec8';
    //get the forecast
  var getFiveDayforecast = function(coord){
     var cityEl= selectedCityEl.value.trim()
-    var apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}`;
+    var apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&units=imperial&appid=${apiKey}`;
 
     fetch(apiUrl)
     .then(function(response){
@@ -87,7 +87,7 @@ var formSubmitHandler = function(event){
      
 };
 
-cityFormEl.addEventListener("submit", formSubmitHandler)
+
 
 function displayforecast (data) {
 
@@ -102,8 +102,12 @@ function displayforecast (data) {
        var titleEL = document.createElement("h5");
         titleEL.textContent= (data.name) 
         
-        var imgEl = document.createElement("p");
-        imgEl.textContent = (data.weather[0].description)
+        var imgEl = document.createElement("img");
+        imgEl.src=`https://openweathermap.org/img/wn/${data.weather[0].icon}.png`
+
+        var descriptionEl = document.createElement("p");
+        descriptionEl.textContent = (data.weather[0].description)
+
 
         var tempEl = document.createElement("p");
         tempEl.textContent= "Temp: " + (data.main.temp)
@@ -116,6 +120,7 @@ function displayforecast (data) {
 
         currentDay.appendChild(titleEL);
         currentDay.appendChild(imgEl);
+        currentDay.appendChild(descriptionEl);
         currentDay.appendChild(tempEl);
         currentDay.appendChild(windEl);
         currentDay.appendChild(humidityEl);
@@ -161,7 +166,8 @@ function displayFiveDayForecast(dataFive){
         //moment(dataFive.daily[i].dt).format("L");
 
         var imgEl = document.createElement("img");
-        imgEl.textContent = "IMG"
+        imgEl.src=`https://openweathermap.org/img/wn/${dataFive.daily[i].weather[0].icon}.png` 
+       
 
         var tempEl = document.createElement("p");
         tempEl.textContent= "Temp: " + (dataFive.daily[i].temp.day);
@@ -200,6 +206,13 @@ function displayFiveDayForecast(dataFive){
     }
 
     pastSearchesEl.addEventListener("click", getFiveDayforecast);
-    
+    cityFormEl.addEventListener("submit", formSubmitHandler)
 
+// function processResults(data){
+//     ;
 
+//      var iconEL=document.createElement("img");
+//     iconEL.textContent= iconSrc
+//     fiveDayforecastEl.appendChild(iconEL)
+// }
+// processResults()
