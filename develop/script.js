@@ -79,6 +79,8 @@ var formSubmitHandler = function(event){
        
         forecastConatainerEl.textContent="";
         selectedCityEl.value="";
+     }else if(pastCity){
+         pastSearchBtn(pastCity)
      }
      else{
          alert("Please Enter a City");
@@ -99,11 +101,14 @@ function displayforecast (data) {
        var currentDay= document.createElement("div");
        currentDay.classList="card-day";
 
-       var titleEL = document.createElement("h5");
+       var titleEL = document.createElement("h3");
         titleEL.textContent= (data.name) 
+
+        var dateEL = document.createElement("h5");
+        dateEL.textContent= (moment().format("L"));
         
-        var imgEl = document.createElement("img");
-        imgEl.src=`https://openweathermap.org/img/wn/${data.weather[0].icon}.png`
+         var imgEl = document.createElement("img");
+         imgEl.src=`https://openweathermap.org/img/wn/${data.weather[0].icon}.png`
 
         var descriptionEl = document.createElement("p");
         descriptionEl.textContent = (data.weather[0].description)
@@ -119,6 +124,7 @@ function displayforecast (data) {
         humidityEl.textContent= "Humidity: " +(data.main.humidity)
 
         currentDay.appendChild(titleEL);
+        currentDay.appendChild(dateEL);
         currentDay.appendChild(imgEl);
         currentDay.appendChild(descriptionEl);
         currentDay.appendChild(tempEl);
@@ -188,7 +194,7 @@ function displayFiveDayForecast(dataFive){
     
     }
      
-
+    
 
     }
     function pastSearchBtn(){
@@ -205,7 +211,7 @@ function displayFiveDayForecast(dataFive){
 
     }
 
-    pastSearchesEl.addEventListener("click", getFiveDayforecast);
+    pastSearchesEl.addEventListener("click", displayforecast);
     cityFormEl.addEventListener("submit", formSubmitHandler)
 
 // function processResults(data){
