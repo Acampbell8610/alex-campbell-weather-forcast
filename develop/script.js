@@ -7,15 +7,14 @@ let apiKey ='ab005648c2da3a02b53d989dac1d8651';
 let fiveDayforecastEl=document.querySelector("#forecast")
 let apiKeyFive= '71c543f4e5fc044e2c293d5a11ea3ec8';
 
-
 //get the forecast
- var getforecast = function(){
-    var cityEl= selectedCityEl.value.trim()
-    var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityEl}&units=imperial&appid=${apiKey}`;
+ var getforecast = function(city){
+    
+    var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
 
     fetch(apiUrl)
     .then(function(response){
-        console.log(cityEl)
+        console.log(city)
         if(response.ok){
             response.json().then(function(data){
                 console.log(data)
@@ -69,8 +68,9 @@ let apiKeyFive= '71c543f4e5fc044e2c293d5a11ea3ec8';
 //gets value from input/location
 var formSubmitHandler = function(event){
     event.preventDefault();
+    
     var city= selectedCityEl.value.trim()
-    ;
+    
     localStorage.setItem("city",city);
     pastSearchBtn();
 
@@ -92,7 +92,7 @@ var formSubmitHandler = function(event){
 
 
 function displayforecast (data) {
-
+console.log(data)
     // iterate over the dataArr array that is passed in
     forecastConatainerEl.textContent="";
     currentWeatherEl.textContent="";
@@ -206,12 +206,15 @@ function displayFiveDayForecast(dataFive){
         pastBtn.classList="btn btn-info"
         pastBtn.textContent= pastCity;
 
+        pastSearch.addEventListener("click", function(){getforecast(pastCity)});
+
         pastSearch.appendChild(pastBtn);
         pastSearchesEl.appendChild(pastSearch);
 
     }
+  
 
-    pastSearchesEl.addEventListener("click", displayforecast);
+   // pastSearchesEl.addEventListener("click", displayforecast);
     cityFormEl.addEventListener("submit", formSubmitHandler)
 
 // function processResults(data){
